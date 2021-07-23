@@ -35,3 +35,6 @@ lerna-debug.log*
 
 # Enviroment Variables
 .env
+
+# constants
+src/constant/jwtKey.ts
