@@ -4,6 +4,8 @@ export interface Config {
   swagger: SwaggerConfig;
   graphql: GraphqlConfig;
   security: SecurityConfig;
+  JWT_ACCESS_SECRET: JwtAccessSecretKey;
+  JWT_REFRESH_SECRET: JwtRefreshSecretKey;
 }
 
 export interface NestConfig {
@@ -34,3 +36,6 @@ export interface SecurityConfig {
   refreshIn: string;
   bcryptSaltOrRound: string | number;
 }
+
+export type JwtAccessSecretKey = string;
+export type JwtRefreshSecretKey = string;

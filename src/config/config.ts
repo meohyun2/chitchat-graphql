@@ -1,3 +1,4 @@
+import { jwtConstants } from 'src/constant/jwtKey';
 import { Config } from './config.interface';
 
 const config: Config = {
@@ -25,6 +26,8 @@ const config: Config = {
     refreshIn: '7d',
     bcryptSaltOrRound: 10,
   },
+  JWT_REFRESH_SECRET: jwtConstants.JWT_REFRESH_SECRET,
+  JWT_ACCESS_SECRET: jwtConstants.JWT_ACCESS_SECRET,
 };
 
 export default (): Config => config;
