@@ -1,0 +1,51 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Auth {
+  accessToken: String!
+  refreshToken: String!
+  user: Auth!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  createUser(input: SignUpInput!): Users!
+  login(input: LoginInput!): Auth!
+  refreshToken(token: String!): Token!
+  signUp(input: SignUpInput!): Auth!
+}
+
+"""유저 프로필 모델"""
+type Profile {
+  id: String!
+  imageUri: String
+  statusMessage: String
+}
+
+type Query {
+  getUser(id: String!): Users!
+}
+
+input SignUpInput {
+  email: String!
+  nickname: String!
+  password: String!
+}
+
+type Token {
+  accessToken: String!
+  refreshToken: String!
+}
+
+"""유저 모델"""
+type Users {
+  email: String!
+  nickname: String!
+  password: String!
+  profile: Profile!
+}
