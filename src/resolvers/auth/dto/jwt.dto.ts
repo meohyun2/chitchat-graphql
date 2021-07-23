@@ -1,4 +1,4 @@
 export interface JWTDto {
-  userId: string;
+  email: string;
   exp: number;
 }
