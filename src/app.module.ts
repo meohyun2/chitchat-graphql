@@ -6,6 +6,7 @@ import config from './config/config';
 import { GraphqlConfig } from './config/config.interface';
 import { AppController } from './controllers/app.controller';
 import { AuthModule } from './resolvers/auth/auth.module';
+import { UserModule } from './resolvers/user/user.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, load: [config] }),
@@ -21,12 +22,15 @@ import { AuthModule } from './resolvers/auth/auth.module';
           autoSchemaFile: graphqlConfig.schemaDestination,
           debug: graphqlConfig.debug,
           playground: graphqlConfig.playgroundEnabled,
-          context: ({ req }) => ({ req }),
+          context: ({ request }) => {
+            return { request };
+          },
         };
       },
       inject: [ConfigService],
     }),
     AuthModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [],

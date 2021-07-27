@@ -7,7 +7,7 @@ import { GqlAuthGuard } from 'src/guards/gqlAuth.guard';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { AuthService } from 'src/services/auth.service';
 import { PasswordService } from 'src/services/password.service';
-import { UsersModule } from '../users/users.module';
+import { UserModule } from '../user/user.module';
 import { AuthResolver } from './auth.resolver';
 import { JwtStrategy } from './jwt.strategy';
 
@@ -15,7 +15,6 @@ import { JwtStrategy } from './jwt.strategy';
   imports: [
     PrismaModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    UsersModule,
     PassportModule,
     JwtModule.registerAsync({
       useFactory: async (configService: ConfigService) => {

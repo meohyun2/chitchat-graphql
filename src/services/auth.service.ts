@@ -1,14 +1,13 @@
 import {
   BadRequestException,
   Injectable,
-  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { SecurityConfig } from 'src/config/config.interface';
 import { Token } from 'src/models/token.model';
-import { Users } from 'src/models/users.model';
+import { User } from 'src/models/User.model';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SignUpInput } from 'src/resolvers/auth/dto/signup.input';
 import { PasswordService } from './password.service';
@@ -26,7 +25,6 @@ export class AuthService {
     const hashedPassword = await this.passwordService.hashPassword(
       input.password,
     );
-    console.log(hashedPassword);
     try {
       const user = await this.prisma.user.create({
         data: {
@@ -37,7 +35,7 @@ export class AuthService {
       });
       return this.generateTokens({ email: user.email });
     } catch (error) {
-      console.error(error);
+      console.log(error);
       throw new BadRequestException();
     }
   }
@@ -48,7 +46,7 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new NotFoundException(`일치하는 로그인 정보가 없습니다.`);
+      throw new UnauthorizedException(`일치하는 로그인 정보가 없습니다.`);
     }
 
     const passwordValid = await this.passwordService.validatePassword(
@@ -57,7 +55,7 @@ export class AuthService {
     );
 
     if (!passwordValid) {
-      throw new BadRequestException(`비밀번호가 일치하지 않습니다.`);
+      throw new UnauthorizedException(`비밀번호가 일치하지 않습니다.`);
     }
 
     return this.generateTokens({
@@ -65,7 +63,7 @@ export class AuthService {
     });
   }
 
-  async getUserFromToken(token: string): Promise<Users> {
+  async getUserFromToken(token: string): Promise<User> {
     const email = this.jwtService.decode(token)['email'];
     return this.prisma.user.findUnique({
       where: {
@@ -74,7 +72,7 @@ export class AuthService {
     });
   }
 
-  async validateUser(email: string): Promise<Users> {
+  async validateUser(email: string): Promise<User> {
     return this.prisma.user.findUnique({ where: { email: email } });
   }
 
