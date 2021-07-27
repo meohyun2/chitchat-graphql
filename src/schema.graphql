@@ -8,27 +8,34 @@ type Auth {
   user: Auth!
 }
 
+input ConfigProfileInput {
+  photoUri: String!
+  statusMessage: String!
+}
+
 input LoginInput {
   email: String!
   password: String!
 }
 
 type Mutation {
-  createUser(input: SignUpInput!): Users!
+  createProfile(input: ConfigProfileInput!): Profile!
   login(input: LoginInput!): Auth!
   refreshToken(token: String!): Token!
   signUp(input: SignUpInput!): Auth!
+  updateProfile(newProfile: ConfigProfileInput!): Profile!
 }
 
 """유저 프로필 모델"""
 type Profile {
-  id: String!
-  imageUri: String
+  id: ID!
+  photoUri: String
   statusMessage: String
 }
 
 type Query {
-  getUser(id: String!): Users!
+  getProfile: Profile!
+  me: User!
 }
 
 input SignUpInput {
@@ -43,8 +50,9 @@ type Token {
 }
 
 """유저 모델"""
-type Users {
+type User {
   email: String!
+  id: ID!
   nickname: String!
   password: String!
   profile: Profile!
